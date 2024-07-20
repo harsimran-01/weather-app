@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cont1 {
+            background: linear-gradient(to right top, #071d3e, #2e2d5d, #5f4080, #984f9d, #d65db1);
+            border: 1px solid black;
+            border-radius: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+            height: 600px;
+            width: 450px;
+        }
+
+        .search {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .input-field {
+            height: 40px;
+            width: 250px;
+            margin-left: 10px;
+            border-radius: 30px;
+            padding-left: 10px;
+        }
+
+        .search button {
+            height: 50px;
+            width: 50px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .search-img {
+            height: 20px;
+        }
+
+        .mid-img {
+            margin-left: 100px;
+        }
+
+        .temp {
+            font-size: 68px;
+            margin-left: 110px;
+            color: white;
+        }
+
+        .city {
+            font-size: 50px;
+            margin-left: 115px;
+            color: white;
+        }
+
+        .bottom {
+            height: 60px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            padding-left: 20px;
+        }
+
+        .bottom1 {
+            display: flex;
+        }
+
+        .bottom1 p {
+            font-size: 27px;
+            padding-left: 20px;
+            color: white;
+        }
+
+        .bottom2 {
+            display: flex;
+        }
+
+        .bottom2 p {
+            font-size: 27px;
+            padding-left: 20px;
+            color: white;
+        }
+
+        .bottom2-text {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cont1">
+        <div class="search">
+            <input type="text" id="name" placeholder="Search" spellcheck="false" class="input-field">
+            <button><img src="images/search.png" class="search-img"></button>
+        </div>
+        <div class="mid">
+            <img src="images/clouds.png" class="mid-img">
+        </div>
+        <div class="mid-text">
+            <p class="temp">22°C</p>
+            <p class="city">New York</p>
+        </div>
+        <div class="bottom">
+            <div class="bottom1">
+                <img src="images/humidity.png" style="height: 40px;">
+                <div class="bottom1-text">
+                    <p class="humidity">64%</p>
+                    <p style="font-size: 20px;">Humidity</p>
+                </div>
+            </div>
+            <div class="bottom2">
+                <img src="images/wind.png" style="height: 40px;">
+                <div class="bottom2-text">
+                    <p class="wind-speed wind">18 km/h</p>
+                    <p style="font-size: 20px;">Wind-Speed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const apiKey = "9e99cee29e9757be76d569ab247b74bc";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+        const searchbox = document.querySelector(".search input");
+        const searchbtn = document.querySelector(".search button");
+        const weathericon = document.querySelector(".mid-img");
+
+        async function checkWeather(city) {
+        
+                const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+                var data = await response.json();
+                console.log(data);
+                document.querySelector(".city").innerHTML = data.name;
+                document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+                document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+                document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+                if(data.weather[0].main == "Clouds"){
+                    weathericon.src = "images/clouds.png";
+                }
+                else if(data.weather[0].main == "Clear"){
+                    weathericon.src = "images/clear.png";
+                }
+                else if(data.weather[0].main == "Rain"){
+                    weathericon.src = "images/rain.png";
+                }
+                else if(data.weather[0].main == "Snow"){
+                    weathericon.src = "images/snow.png";
+                }
+                else if(data.weather[0].main == "Drizzle"){
+                    weathericon.src = "images/drizzle.png";
+                }
+                else if(data.weather[0].main == "Mist"){
+                    weathericon.src = "images/mist.png";
+                }
+            }
+        
+
+        searchbtn.addEventListener("click", () => {
+            checkWeather(searchbox.value);
+        });
+
+        // Initial weather check for Bangalore
+        checkWeather("bangalore");
+    </script>
+</body>
+
+</html>
