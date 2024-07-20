@@ -1,6 +1,6 @@
 # weather-app
 https://github.com/user-attachments/assets/2ab190b2-69be-4d38-a3e4-4100a14b44c5
-README
+
 Weather App
 This is a simple weather application that displays the current weather conditions for a specified city. The app uses the OpenWeatherMap API to fetch weather data and updates the UI accordingly.
 
